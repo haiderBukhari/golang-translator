@@ -1,8 +1,5 @@
 {
-    "version": 2,
-    "functions": {
-        "api/main.go": {
-            "runtime": "vercel-go@1.0.0"
-        }
-    }
-}
+    "routes": [
+      { "src": "/(.*)", "dest": "/api" }
+    ]
+  }
