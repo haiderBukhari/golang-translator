@@ -1,13 +1,11 @@
-package main
+package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/bregydoc/gtranslate"
-	"github.com/rs/cors"
 )
 
 type TranslateRequest struct {
@@ -21,7 +19,8 @@ type TranslateResponse struct {
 	Message        string `json:"message"`
 }
 
-func TranslateHandler(w http.ResponseWriter, r *http.Request) {
+// Handler function for translation
+func Handler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -67,14 +66,4 @@ func sendJSONResponse(w http.ResponseWriter, data interface{}, statusCode int) {
 	if err != nil {
 		log.Printf("Failed to encode JSON response: %v", err)
 	}
-}
-
-func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/translate", TranslateHandler)
-
-	c := cors.Default().Handler(mux)
-
-	fmt.Println("Starting server on http://localhost:8000")
-	log.Fatal(http.ListenAndServe(":8000", c))
 }
